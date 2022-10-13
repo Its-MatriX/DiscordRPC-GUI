@@ -285,7 +285,7 @@ class ui_main_window(QtWidgets.QMainWindow):
             'padding-left: 5;\n'
             'padding-right: 5')
         self.button_main = QtWidgets.QPushButton(self.central_widget)
-        self.button_main.setGeometry(QtCore.QRect(165, 460, 101, 26))
+        self.button_main.setGeometry(QtCore.QRect(164, 460, 101, 26))
         self.button_main.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.button_main.setStyleSheet('background-color: rgb(96, 102, 113);\n'
                                        'border-radius: 3;\n'
