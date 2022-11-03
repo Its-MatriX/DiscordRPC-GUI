@@ -8,6 +8,7 @@ from sys import argv
 from threading import Thread
 from time import time
 from time import sleep
+from webbrowser import open_new_tab
 
 from pypresence import Presence
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -82,7 +83,7 @@ class ui_main_window(QtWidgets.QMainWindow):
 
         icon = QtGui.QIcon()
         icon.addPixmap(
-            QtGui.QPixmap(f'{folder+sep}assets{sep}asset_app_icon.png'),
+            QtGui.QPixmap(f'{folder+sep}assets{sep}asset_icon.png'),
             QtGui.QIcon.Normal, QtGui.QIcon.Off)
 
         main_window.setWindowIcon(icon)
@@ -321,6 +322,17 @@ class ui_main_window(QtWidgets.QMainWindow):
         icon.addPixmap(QtGui.QPixmap(f'{folder+sep}assets{sep}asset_save.png'),
                        QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.button_save.setIcon(icon)
+        self.button_open_docs = QtWidgets.QPushButton(self.central_widget)
+        self.button_open_docs.setGeometry(QtCore.QRect(70, 460, 26, 26))
+        self.button_open_docs.setCursor(
+            QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.button_open_docs.setStyleSheet(
+            'background-color: rgb(96, 102, 113);\n'
+            'border-radius: 3;\n')
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(f'{folder+sep}assets{sep}asset_docs.png'),
+                       QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.button_open_docs.setIcon(icon)
         self.button_update = QtWidgets.QPushButton(self.central_widget)
         self.button_update.setGeometry(QtCore.QRect(134, 460, 26, 26))
         self.button_update.setCursor(
@@ -379,6 +391,7 @@ class ui_main_window(QtWidgets.QMainWindow):
         self.small_icon_text.raise_()
         self.button_main.raise_()
         self.button_save.raise_()
+        self.button_open_docs.raise_()
         self.button_update.raise_()
         self.button_open.raise_()
         main_window.setCentralWidget(self.central_widget)
@@ -417,6 +430,8 @@ class ui_main_window(QtWidgets.QMainWindow):
         self.button_save.clicked.connect(self.save_config)
         self.button_open.clicked.connect(self.open_config)
         self.button_update.clicked.connect(self.update_without_time)
+        self.button_open_docs.clicked.connect(
+            lambda: open_new_tab('https://its-matrix.gitbook.io/discord-rpc/'))
 
         # On signals
         self.warning_signal.connect(self.throw_error)
