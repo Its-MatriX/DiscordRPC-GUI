@@ -1,3 +1,1 @@
-# DiscordRPC
-#### Rich Presence для Discord. Поддерживаются кнопки.
-#### + Интерфейс
+Документация по DiscordRPC: https://its-matrix.gitbook.io/discord-rpc/
