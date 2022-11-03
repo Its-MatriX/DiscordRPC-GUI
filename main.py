@@ -22,6 +22,7 @@ class rich_presence_state:
     application_id = None
     start_on = None
     args = None
+    rpc_is_updated = None
 
 
 def rich_presence(rpc_args):
@@ -52,9 +53,11 @@ def rich_presence(rpc_args):
         old = rich_presence_state.args
         sleep(1)
 
-        if rich_presence_state.args != old:
+        if (rich_presence_state.args !=
+                old) or (rich_presence_state.rpc_is_updated):
             rich_presence_state.presence.update(**rich_presence_state.args)
             window.update_default_stylesheet_signal.emit(0)
+            rich_presence_state.rpc_is_updated = False
 
 
 class ui_main_window(QtWidgets.QMainWindow):
@@ -449,11 +452,6 @@ class ui_main_window(QtWidgets.QMainWindow):
         self.checkbox_enable_time_counter_on_change()
 
     def update_without_time(self):
-        self.button_update.setStyleSheet('background-color: rgb(74, 79, 88);\n'
-                                         'border-radius: 3;\n')
-
-        self.button_update.setEnabled(False)
-
         rpc_args = {}
         rich_presence_state.application_id = self.application_id.text()
 
@@ -559,6 +557,12 @@ class ui_main_window(QtWidgets.QMainWindow):
             rpc_args['start'] = rich_presence_state.start_on
 
         rich_presence_state.args = rpc_args
+
+        self.button_update.setStyleSheet('background-color: rgb(74, 79, 88);\n'
+                                         'border-radius: 3;\n')
+
+        self.button_update.setEnabled(False)
+        rich_presence_state.rpc_is_updated = True
 
     def checkbox_enable_time_counter_on_change(self):
         if self.checkbox_enable_time_counter.isChecked():
@@ -1101,9 +1105,10 @@ class ui_main_window(QtWidgets.QMainWindow):
                 'border-radius: 3;\n'
                 'color: white;\n'
                 'font: 87 10pt \'Segoe UI Black\';')
-            
-            self.button_update.setStyleSheet('background-color: rgb(74, 79, 88);\n'
-                                         'border-radius: 3;\n')
+
+            self.button_update.setStyleSheet(
+                'background-color: rgb(74, 79, 88);\n'
+                'border-radius: 3;\n')
             self.button_update.setEnabled(False)
 
             return
